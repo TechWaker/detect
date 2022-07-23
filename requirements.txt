@@ -1,5 +1,5 @@
 Flask
-numpy==1.19.5
+numpy
 keras
 tensorflow-cpu
 gunicorn
