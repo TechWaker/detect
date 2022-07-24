@@ -11,12 +11,12 @@ dic = {0 : 'red', 1 : 'green'}
 
 app=Flask(__name__)
 
-@app.route('/')
+@app.route('/',methods=['GET'])
 def index():
       return render_template("index.html")
 
 
-@app.route("/", methods=["POST"])
+@app.route("/predict", methods=["POST"])
 def prediction():
 
   f= request.files['img']
