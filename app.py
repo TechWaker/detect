@@ -16,35 +16,32 @@ def index():
       return render_template("index.html")
 
 
-@app.route('/', methods=['POST'])
+@app.route("/", methods=["POST"])
 def prediction():
-      if request.method == 'POST':
-        f= request.files['img']
 
-        folder = r'uploads'
-        for filename in os.listdir(folder):
-          file_path = os.path.join(folder, filename)
-          if os.path.isfile(file_path) or os.path.islink(file_path):
-              os.unlink(file_path)
-          elif os.path.isdir(file_path):
-             shutil.rmtree(file_path)
+  f= request.files['img']
 
+  folder = r'uploads'
+  for filename in os.listdir(folder):
+    file_path = os.path.join(folder, filename)
+    if os.path.isfile(file_path) or os.path.islink(file_path):
+        os.unlink(file_path)
+    elif os.path.isdir(file_path):
+       shutil.rmtree(file_path)
 
-        basepath = os.path.dirname(__file__)
-        file_path = os.path.join(
-            basepath, 'uploads', secure_filename(f.filename))
-        f.save(file_path)
-        img = tf.keras.utils.load_img(file_path,target_size=(224,224)) ##loading the image
-        img = np.asarray(img) ##converting to an array
-        img = img / 255 ##scaling by doing a division of 255
-        img = img.reshape(1, 224,224,3)
-        p = np.argmax(model.predict(img), axis=1)
+  
+  basepath = os.path.dirname(__file__)
+  file_path = os.path.join(
+      basepath, 'uploads', secure_filename(f.filename))
+  f.save(file_path)
+  img = tf.keras.utils.load_img(file_path,target_size=(224,224)) ##loading the image
+  img = np.asarray(img) ##converting to an array
+  img = img / 255 ##scaling by doing a division of 255
+  img = img.reshape(1, 224,224,3)
+  p = np.argmax(model.predict(img), axis=1)
 
-        
-        return render_template("index.html",prediction=dic[p[0]])
-      
-      else:
-        return render_template('index.html')
+  print(dic[p[0]])
+  return render_template("index.html",prediction=dic[p[0]])
 
 
 
