@@ -11,7 +11,7 @@ dic = {0 : 'red', 1 : 'green'}
 
 app=Flask(__name__)
 
-@app.route('/',methods=['GET'])
+@app.route('/')
 def index():
       return render_template("index.html")
 
