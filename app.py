@@ -16,7 +16,7 @@ def index():
       return render_template("index.html")
 
 
-@app.route("/predict", methods=["POST"])
+@app.route("/", methods=["POST"])
 def prediction():
 
   f= request.files['img']
