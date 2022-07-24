@@ -9,10 +9,6 @@ from werkzeug.utils import secure_filename
 model = load_model('keras_model.h5')
 dic = {0 : 'red', 1 : 'green'}
 
-if not os.path.isdir(static):
-    print('Creating static folder..')
-    os.mkdir('static')
-
 app=Flask(__name__)
 
 @app.route('/')
@@ -25,7 +21,7 @@ def prediction():
 
   f= request.files['img']
 
-  folder = 'static'
+  folder = r'uploads'
   for filename in os.listdir(folder):
     file_path = os.path.join(folder, filename)
     if os.path.isfile(file_path) or os.path.islink(file_path):
@@ -36,7 +32,7 @@ def prediction():
   
   basepath = os.path.dirname(__file__)
   file_path = os.path.join(
-      basepath, 'static', secure_filename(f.filename))
+      basepath, 'uploads', secure_filename(f.filename))
   f.save(file_path)
   img = tf.keras.utils.load_img(file_path,target_size=(224,224)) ##loading the image
   img = np.asarray(img) ##converting to an array
